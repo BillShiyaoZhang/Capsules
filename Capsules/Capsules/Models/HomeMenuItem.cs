@@ -7,6 +7,7 @@ namespace Capsules.Models
     public enum MenuItemType
     {
         Browse,
+        Drafts,
         About
     }
     public class HomeMenuItem

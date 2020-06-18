@@ -12,25 +12,23 @@ using Capsules.ViewModels;
 
 namespace Capsules.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
-    [DesignTimeVisible(false)]
-    public partial class CapsulesPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class DraftsPage : ContentPage
     {
-        CapsulesViewModel viewModel;
+        DraftsViewModel viewModel;
 
-        public CapsulesPage()
+        public DraftsPage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new CapsulesViewModel();
+            BindingContext = viewModel = new DraftsViewModel();
         }
 
         async void OnItemSelected(object sender, EventArgs args)
         {
             var layout = (BindableObject)sender;
             var item = (Capsule)layout.BindingContext;
-            await Navigation.PushAsync(new CapsuleDetailPage(new CapsuleDetailViewModel(item)));
+            await Navigation.PushModalAsync(new NavigationPage(new NewCapsulePage()));
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)

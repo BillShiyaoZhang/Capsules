@@ -6,19 +6,29 @@
              mc:Ignorable="d"
              x:Class="Capsules.Views.NewCapsulePage"
              Title="New Item">
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked" />
         <ToolbarItem Text="Save" Clicked="Save_Clicked" />
     </ContentPage.ToolbarItems>
-    
+
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Item.Title}" d:Text="Item name" FontSize="Small" />
+            <Entry Placeholder="Item name" 
+                   Text="{Binding Item.Title}" 
+                   d:Text="Item name" FontSize="Small" />
             <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small" Margin="0" />
+            <Editor Placeholder="This is an item description." 
+                    Text="{Binding Item.Description}" 
+                    d:Text="Item description" 
+                    FontSize="Small" Margin="0" />
+            <Label Text="Due date" FontSize="Medium"/>
+            <DatePicker HorizontalOptions="FillAndExpand"
+                        Date="{Binding Item.Due}" />
+            <TimePicker HorizontalOptions="FillAndExpand"
+                        Time="{Binding DueTime}" Format="T"/>
         </StackLayout>
     </ContentPage.Content>
-    
+
 </ContentPage>

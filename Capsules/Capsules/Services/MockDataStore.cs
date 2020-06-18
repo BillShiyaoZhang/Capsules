@@ -14,12 +14,12 @@ namespace Capsules.Services
         {
             items = new List<Capsule>()
             {
-                new Capsule { Id = Guid.NewGuid().ToString(), Title = "First item", Description="This is an item description." },
-                new Capsule { Id = Guid.NewGuid().ToString(), Title = "Second item", Description="This is an item description." },
-                new Capsule { Id = Guid.NewGuid().ToString(), Title = "Third item", Description="This is an item description." },
-                new Capsule { Id = Guid.NewGuid().ToString(), Title = "Fourth item", Description="This is an item description." },
-                new Capsule { Id = Guid.NewGuid().ToString(), Title = "Fifth item", Description="This is an item description." },
-                new Capsule { Id = Guid.NewGuid().ToString(), Title = "Sixth item", Description="This is an item description." }
+                new Capsule { Title = "First item", Description="This is an item description." },
+                new Capsule { Title = "Second item", Description="This is an item description." },
+                new Capsule { Title = "Third item", Description="This is an item description." },
+                new Capsule { Title = "Fourth item", Description="This is an item description." },
+                new Capsule { Title = "Fifth item", Description="This is an item description." },
+                new Capsule { Title = "Sixth item", Description="This is an item description." }
             };
         }
 
@@ -55,6 +55,11 @@ namespace Capsules.Services
         public async Task<IEnumerable<Capsule>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
+        }
+
+        Task<IEnumerable<Capsule>> IDataStore<Capsule>.GetItemsAsync(bool isDraft, bool forceRefresh)
+        {
+            throw new NotImplementedException();
         }
     }
 }

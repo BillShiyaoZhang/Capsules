@@ -31,14 +31,7 @@ namespace Capsules.Services
             modelBuilder.Entity<Capsule>()
                 .Property(c => c.IsDraft)
                 .IsRequired();
-#if DEBUG
-            modelBuilder.Entity<Capsule>()
-                .HasData(
-                    new Capsule { Id = Guid.NewGuid().ToString(), Title = "Title 1", Description = "Description 1", Due = new DateTime(2020, 12, 12) },
-                    new Capsule { Id = Guid.NewGuid().ToString(), Title = "Title 2", Description = "Description 2", Due = new DateTime(2020, 12, 23) },
-                    new Capsule { Id = Guid.NewGuid().ToString(), Title = "Title 3", Description = "Description 3", Due = new DateTime(2020, 12, 31) }
-                );
-#endif
+
         }
 
         #region IDataStore methods
@@ -80,10 +73,16 @@ namespace Capsules.Services
             return await Capsules.FindAsync(id).ConfigureAwait(false);
         }
 
-        async Task<IEnumerable<Capsule>> IDataStore<Capsule>.GetItemsAsync(bool forceRefresh = false)
+        async Task<IEnumerable<Capsule>> IDataStore<Capsule>.GetItemsAsync(bool forceRefresh)
         {
             // ignore force refresh for now
             return await Capsules.ToListAsync().ConfigureAwait(false);
+        }
+
+        Task<IEnumerable<Capsule>> IDataStore<Capsule>.GetItemsAsync(bool isDraft, bool forceRefresh)
+        {
+            IEnumerable<Capsule> result = Capsules.Where(c => c.IsDraft == isDraft).ToList();
+            return Task.FromResult(result);
         }
 
         async Task<bool> IDataStore<Capsule>.UpdateItemAsync(Capsule item)

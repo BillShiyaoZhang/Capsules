@@ -2,26 +2,24 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using Capsules.Models;
 using Capsules.Views;
 
 namespace Capsules.ViewModels
 {
-    public class CapsulesViewModel : BaseViewModel
+    public class DraftsViewModel : BaseViewModel
     {
         public ObservableCollection<Capsule> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public CapsulesViewModel()
+        public DraftsViewModel()
         {
-            Title = "Browse";
+            Title = "Drafts";
             Items = new ObservableCollection<Capsule>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewCapsulePage, Capsule>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewCapsulePage, Capsule>(this, "AddDraftItem", async (obj, item) =>
             {
                 var newItem = item as Capsule;
                 Items.Add(newItem);
@@ -36,8 +34,8 @@ namespace Capsules.ViewModels
             try
             {
                 Items.Clear();
-                var sealedItems = await DataStore.GetItemsAsync(false, false);
-                foreach (var item in sealedItems)
+                var draftItems = await DataStore.GetItemsAsync(true, false);
+                foreach (var item in draftItems)
                 {
                     Items.Add(item);
                 }

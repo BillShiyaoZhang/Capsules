@@ -8,10 +8,23 @@
              Title="{Binding Title}">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
+        <Label Text="Title:" FontSize="Medium" />
         <Label Text="{Binding Item.Title}" d:Text="Item name" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Column="0">
+                <Label Text="Due date" FontSize="Medium"/>
+                <Label Text="{Binding Item.DisplayDue}" d:Text="2020/12/12" FontSize="Small"/>
+            </StackLayout>
+            <StackLayout Grid.Column="1">
+                <Label Text="This is a draft" FontSize="Medium"/>
+            </StackLayout>
+        </Grid>
     </StackLayout>
     
 </ContentPage>

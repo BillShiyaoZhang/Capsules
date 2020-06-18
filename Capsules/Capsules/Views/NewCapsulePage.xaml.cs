@@ -14,25 +14,42 @@ namespace Capsules.Views
     public partial class NewCapsulePage : ContentPage
     {
         public Capsule Item { get; set; }
+        public TimeSpan DueTime { get; set; }
 
         public NewCapsulePage()
         {
             InitializeComponent();
 
-            Item = new Capsule
-            {
-                Id = Guid.NewGuid().ToString(),
-                Title = "Item name",
-                Description = "This is an item description."
-            };
+            Item = new Capsule();
+
+            DueTime = new TimeSpan();
+
 
             BindingContext = this;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Item);
-            await Navigation.PopModalAsync();
+            Item.Due = Item.Due.Date + DueTime;
+            if (Item.IsSealable)
+            {
+                Item.IsDraft = false;
+                MessagingCenter.Send(this, "AddSealedItem", Item);
+                await Navigation.PopModalAsync();
+            }
+            else
+            {
+                // TODO: pop up window to ask if store as draft
+                bool store = await DisplayAlert("Save as draft?",
+                    "There are details not filled. Do you want to save as draft instead?",
+                    "Yes", "No, discard");
+                if (store)
+                {
+                    Item.IsDraft = true;
+                    MessagingCenter.Send(this, "AddDraftItem", Item);
+                }
+                await Navigation.PopModalAsync();
+            }
         }
 
         async void Cancel_Clicked(object sender, EventArgs e)
